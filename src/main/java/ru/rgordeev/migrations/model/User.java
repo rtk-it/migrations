@@ -69,11 +69,11 @@ public class User {
     @Column(name = "status")
     private Integer age;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "country_id", nullable = false, foreignKey = @ForeignKey(name = "fk_user_country_id"))
     private Country country;
 
-    @ManyToMany(cascade = {
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {
         CascadeType.PERSIST,
         CascadeType.MERGE
     })
