@@ -1,11 +1,12 @@
 plugins {
     id 'org.springframework.boot' version '2.4.2'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id "org.liquibase.gradle" version "2.0.4"
     id 'java'
 }
 
 group = 'ru.rgordeev'
-version = '0.0.1-SNAPSHOT'
+version = "${projectVersion}"
 sourceCompatibility = '11'
 
 configurations {
@@ -18,16 +19,108 @@ repositories {
     mavenCentral()
 }
 
+// BEGIN gradle liquibase plugin configuration
+project.afterEvaluate {
+
+    if (!project.hasProperty("runList")) {
+        project.ext.runList = "main"
+    }
+
+    liquibase {
+        activities {
+            main {
+                driver "org.postgresql.Driver"
+                url project.ext.targetUrl
+                username project.ext.targetUsername
+                password project.ext.targetPassword
+                changeLogFile "src/main/resources/db/changelog/db.changelog-master.xml"
+                logLevel "info"
+                contexts "prod"
+            }
+            diffLog {
+                driver "org.postgresql.Driver"
+                url project.ext.targetUrl
+                username project.ext.targetUsername
+                password project.ext.targetPassword
+                changeLogFile project.ext.diffChangelogFile
+                referenceUrl project.ext.referenceUrl
+                logLevel "info"
+            }
+        }
+        runList = project.ext.runList
+    }
+}
+
+if (!project.hasProperty("diffChangelogFile")) {
+    project.ext.diffChangelogFile = "src/main/resources/db/changelog/" + new Date().format("yyyyMMddHHmmss") + "_changelog.xml"
+}
+if (!project.hasProperty("targetUrl")) {
+    project.ext.targetUrl = "jdbc:postgresql://localhost:5432/migrations_prod"
+}
+if (!project.hasProperty("targetUsername")) {
+    project.ext.targetUsername = "migrations"
+}
+if (!project.hasProperty("targetPassword")) {
+    project.ext.targetPassword = "migrations"
+}
+if (!project.hasProperty("referenceUrl")) {
+    project.ext.referenceUrl = "hibernate:spring:ru.rgordeev.migrations.model?dialect=org.hibernate.dialect.PostgreSQL10Dialect&hibernate.show_sql=true&hibernate.enhanced_id=true&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
+}
+// END gradle liquibase plugin configuration
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.liquibase:liquibase-core'
+    implementation "org.springframework.boot:spring-boot-starter-validation"
+    implementation "org.springframework.boot:spring-boot-starter-aop"
+
+    implementation "org.hibernate:hibernate-core"
+    implementation "org.hibernate.validator:hibernate-validator"
+    implementation "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:${hibernateJpa21ApiVersion}"
+    implementation "com.vladmihalcea:hibernate-types-52:${hibernateTypes52Version}"
+    implementation "javax.persistence:javax.persistence-api:${javaxPersistenceApiVersion}"
+    implementation "javax.validation:validation-api:${validationApiVersion}"
+
+    implementation("org.liquibase:liquibase-core:${liquibaseCoreVersion}")
+
+    // Jackson
+    implementation "com.fasterxml.jackson.core:jackson-annotations"
+    implementation "com.fasterxml.jackson.core:jackson-databind"
+    implementation "com.fasterxml.jackson.core:jackson-core"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jdk8"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda"
+    implementation "com.fasterxml.jackson.module:jackson-module-jaxb-annotations"
+
+    // AspectJ
+    implementation 'org.aspectj:aspectjweaver'
+    implementation 'org.aspectj:aspectjrt'
+
+    // Logging
+    implementation "org.slf4j:slf4j-api:${slf4jVersion}"
+    implementation "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
+    implementation "ch.qos.logback:logback-classic:${logbackVersion}"
+    implementation "ch.qos.logback:logback-core:${logbackVersion}"
+
     compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'com.h2database:h2'
+    implementation("com.zaxxer:HikariCP")
+    runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
+
+    liquibaseRuntime "org.liquibase:liquibase-core:${liquibaseCoreVersion}"
+    liquibaseRuntime "org.postgresql:postgresql"
+    liquibaseRuntime "org.liquibase.ext:liquibase-hibernate5:${liquibaseHibernate5Version}"
+    liquibaseRuntime "org.springframework.boot:spring-boot-starter-data-jpa"
+    liquibaseRuntime "javax.validation:validation-api"
+    liquibaseRuntime "org.javassist:javassist"
+    liquibaseRuntime "javax.xml.bind:jaxb-api"
+    liquibaseRuntime "com.h2database:h2"
+    liquibaseRuntime sourceSets.main.runtimeClasspath
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation "com.h2database:h2"
 }
 
 test {

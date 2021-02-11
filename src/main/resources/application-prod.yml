@@ -1,0 +1,60 @@
+# ===================================================================
+# Spring Boot configuration for the "prod" profile.
+#
+# This configuration overrides the application.yml file.
+#
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+logging:
+  level:
+    ROOT: WARN
+    ru.rgordeev.migrations: WARN
+  file:
+    name: /usr/share/app/logs/app.log
+  pattern:
+    file: "%boldGreen(%d{yyyy-MM-dd}) | %boldBlue(%d{HH:mm:ss.SSS}) | %highlight(%-5level) | %cyan(%-20.20thread) | %-25.25logger{25} | %-25.25method{25}  | %m%xEx{full}%n"
+
+
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://postges.backend:5432/prod
+    username: postgres
+    password: postgres
+    name: app-prod-database
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      poolName: Hikari
+      auto-commit: false
+      maximum-pool-size: 50
+      driver-class-name: org.postgresql.Driver
+  liquibase:
+    enabled: false
+    contexts: prod
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQL10Dialect
+      hibernate.hbm2ddl.auto: validate
+      hibernate.show_sql: false
+      hibernate.format_sql: false
+      hibernate.query.plan_parameter_metadata_max_size: 2000
+      hibernate.query.plan_cache_max_size: 20000
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    show-sql: false
+
+server:
+  port: 8080
+
+# ===================================================================
+# Application specific properties
+# ===================================================================
+
+# application:

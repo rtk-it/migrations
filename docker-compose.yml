@@ -1,0 +1,17 @@
+version: "3.4"
+services:
+  postgres:
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    image: migrations/postgres:${TAG}
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - VERSION=${TAG}
+    image: migrations/app:${TAG}
+
+
