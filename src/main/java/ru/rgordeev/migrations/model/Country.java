@@ -16,7 +16,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicUpdate
 @DynamicInsert
 @Table(name = "tbl_country", indexes = {
-    @Index(name = "idx_country_name", columnList = "name")
+    @Index(name = "idx_country_name", columnList = "country_name")
 })
 @Getter
 @Setter
