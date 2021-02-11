@@ -1,0 +1,4 @@
+id,status,bio,last_name,login,name,country_id
+1,1,bio,user1,user1,user1,AF
+2,1,bio,user2,user2,user2,RU
+3,1,bio,user3,user3,user3,MF
