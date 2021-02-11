@@ -101,4 +101,30 @@
       sequenceName="user_id_seq" startValue="1"/>
   </changeSet>
 
+  <changeSet author="rgordeev (generated)" id="1613051459463-13">
+    <loadData commentLineStartsWith="#"
+      encoding="UTF-8"
+      file="data/languages.csv"
+      quotchar="&quot;"
+      separator=","
+      tableName="tbl_language"
+      relativeToChangelogFile="true">
+      <column header="code" name="code" type="STRING"/>
+      <column header="name" name="name" type="STRING"/>
+    </loadData>
+  </changeSet>
+
+  <changeSet author="rgordeev (generated)" id="1613051459463-14">
+    <loadData commentLineStartsWith="#"
+      encoding="UTF-8"
+      file="data/countries.csv"
+      quotchar="&quot;"
+      separator=","
+      tableName="tbl_country"
+      relativeToChangelogFile="true">
+      <column header="code" name="code" type="STRING"/>
+      <column header="name" name="country_name" type="STRING"/>
+    </loadData>
+  </changeSet>
+
 </databaseChangeLog>
