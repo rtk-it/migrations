@@ -35,7 +35,7 @@ spring:
       maximum-pool-size: 50
       driver-class-name: org.postgresql.Driver
   liquibase:
-    enabled: false
+    enabled: true
     contexts: prod
   jpa:
     hibernate:
