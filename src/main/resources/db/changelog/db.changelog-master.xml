@@ -7,5 +7,6 @@
   </preConditions>
 
   <include file="initial/init.xml" relativeToChangelogFile="true"/>
+  <include file="20210211224259_changelog.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
