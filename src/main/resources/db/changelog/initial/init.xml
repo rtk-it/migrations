@@ -2,7 +2,8 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.10.xsd"
   logicalFilePath="init.xml">
-  <changeSet author="rgordeev (generated)" id="1613076430266-1">
+
+  <changeSet author="rgordeev (generated)" id="1613076430266-1" dbms="postgresql">
     <createTable tableName="tbl_country">
       <column name="code" type="VARCHAR(255)">
         <constraints nullable="false" primaryKey="true" primaryKeyName="tbl_country_pkey"/>
@@ -12,7 +13,18 @@
       </column>
     </createTable>
   </changeSet>
-  <changeSet author="rgordeev (generated)" id="1613076430266-2">
+  <changeSet author="rgordeev (generated)" id="1613076430266-1" dbms="h2">
+    <createTable tableName="tbl_country">
+      <column name="code" type="VARCHAR(255)">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="tbl_country_pkey"/>
+      </column>
+      <column name="name" type="VARCHAR(1024)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <changeSet author="rgordeev (generated)" id="1613076430266-2" dbms="postgresql">
     <createTable tableName="tbl_language">
       <column name="code" type="VARCHAR(255)">
         <constraints nullable="false" primaryKey="true" primaryKeyName="tbl_language_pkey"/>
@@ -22,7 +34,18 @@
       </column>
     </createTable>
   </changeSet>
-  <changeSet author="rgordeev (generated)" id="1613076430266-3">
+  <changeSet author="rgordeev (generated)" id="1613076430266-2" dbms="h2">
+    <createTable tableName="tbl_language">
+      <column name="code" type="VARCHAR(255)">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="tbl_language_pkey"/>
+      </column>
+      <column name="name" type="VARCHAR(1024)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <changeSet author="rgordeev (generated)" id="1613076430266-3" dbms="postgresql">
     <createTable tableName="tbl_user">
       <column name="id" type="BIGINT">
         <constraints nullable="false" primaryKey="true" primaryKeyName="tbl_user_pkey"/>
@@ -43,6 +66,28 @@
       </column>
     </createTable>
   </changeSet>
+  <changeSet author="rgordeev (generated)" id="1613076430266-3" dbms="h2">
+    <createTable tableName="tbl_user">
+      <column name="id" type="BIGINT">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="tbl_user_pkey"/>
+      </column>
+      <column name="status" type="INTEGER"/>
+      <column name="bio" type="VARCHAR(1024)"/>
+      <column name="last_name" type="VARCHAR(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="login" type="VARCHAR(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="name" type="VARCHAR(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="country_id" type="VARCHAR(255)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+
   <changeSet author="rgordeev (generated)" id="1613076430266-4">
     <createTable tableName="tbl_user_language">
       <column name="user_id" type="BIGINT">
@@ -88,8 +133,39 @@
       deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
       referencedTableName="tbl_user" validate="true"/>
   </changeSet>
-  <changeSet author="rgordeev (generated)" id="1613076430266-12">
+  <changeSet author="rgordeev (generated)" id="1613076430266-12" dbms="postgresql">
     <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="50" maxValue="9223372036854775807" minValue="1"
       sequenceName="user_id_seq" startValue="1"/>
   </changeSet>
+  <changeSet author="rgordeev (generated)" id="1613076430266-12" dbms="h2">
+    <createSequence cacheSize="1" cycle="false" incrementBy="50" maxValue="9223372036854775807" minValue="1"
+      sequenceName="user_id_seq" startValue="1"/>
+  </changeSet>
+
+  <changeSet author="rgordeev (generated)" id="1613051459463-13">
+    <loadData commentLineStartsWith="#"
+      encoding="UTF-8"
+      file="data/languages.csv"
+      quotchar="&quot;"
+      separator=","
+      tableName="tbl_language"
+      relativeToChangelogFile="true">
+      <column header="code" name="code" type="STRING"/>
+      <column header="name" name="name" type="STRING"/>
+    </loadData>
+  </changeSet>
+
+  <changeSet author="rgordeev (generated)" id="1613051459463-14">
+    <loadData commentLineStartsWith="#"
+      encoding="UTF-8"
+      file="data/countries.csv"
+      quotchar="&quot;"
+      separator=","
+      tableName="tbl_country"
+      relativeToChangelogFile="true">
+      <column header="code" name="code" type="STRING"/>
+      <column header="name" name="name" type="STRING"/>
+    </loadData>
+  </changeSet>
+
 </databaseChangeLog>
