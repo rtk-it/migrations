@@ -2,6 +2,10 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.10.xsd"
   logicalFilePath="init.xml">
+
+  <property name="text.type" value="text" dbms="postgresql"/>
+  <property name="text.type" value="varchar(1024)" dbms="h2"/>
+
   <changeSet author="rgordeev (generated)" id="1613069845959-1">
     <createTable tableName="tbl_country">
       <column name="code" type="VARCHAR(255)">
@@ -28,7 +32,7 @@
         <constraints nullable="false" primaryKey="true" primaryKeyName="tbl_user_pkey"/>
       </column>
       <column name="status" type="INTEGER"/>
-      <column name="bio" type="TEXT"/>
+      <column name="bio" type="${text.type}"/>
       <column name="last_name" type="VARCHAR(255)">
         <constraints nullable="false"/>
       </column>
@@ -88,8 +92,12 @@
       deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
       referencedTableName="tbl_user" validate="true"/>
   </changeSet>
-  <changeSet author="rgordeev (generated)" id="1613069845959-12">
+  <changeSet author="rgordeev (generated)" id="1613069845959-12" dbms="postgresql">
     <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="50" maxValue="9223372036854775807" minValue="1"
+      sequenceName="user_id_seq" startValue="1"/>
+  </changeSet>
+  <changeSet author="rgordeev (generated)" id="1613069845959-12" dbms="h2">
+    <createSequence cacheSize="1" cycle="false" incrementBy="50" maxValue="9223372036854775807" minValue="1"
       sequenceName="user_id_seq" startValue="1"/>
   </changeSet>
 </databaseChangeLog>
