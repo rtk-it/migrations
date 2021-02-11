@@ -100,4 +100,5 @@
     <createSequence cacheSize="1" cycle="false" incrementBy="50" maxValue="9223372036854775807" minValue="1"
       sequenceName="user_id_seq" startValue="1"/>
   </changeSet>
+
 </databaseChangeLog>
