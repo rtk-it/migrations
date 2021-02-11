@@ -1,5 +1,6 @@
 package ru.rgordeev.migrations.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -33,7 +34,8 @@ public class Language {
     @Column(name = "name", nullable = false, columnDefinition = "text")
     private String name;
 
-    @ManyToMany(mappedBy = "languages", fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToMany(mappedBy = "languages", fetch = FetchType.EAGER)
     private Set<User> users = new HashSet<>();
 
 }
