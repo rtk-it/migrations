@@ -142,4 +142,61 @@
       sequenceName="user_id_seq" startValue="1"/>
   </changeSet>
 
+  <changeSet author="rgordeev (generated)" id="1613051459463-13">
+    <loadData commentLineStartsWith="#"
+      encoding="UTF-8"
+      file="data/languages.csv"
+      quotchar="&quot;"
+      separator=","
+      tableName="tbl_language"
+      relativeToChangelogFile="true">
+      <column header="code" name="code" type="STRING"/>
+      <column header="name" name="name" type="STRING"/>
+    </loadData>
+  </changeSet>
+
+  <changeSet author="rgordeev (generated)" id="1613051459463-14">
+    <loadData commentLineStartsWith="#"
+      encoding="UTF-8"
+      file="data/countries.csv"
+      quotchar="&quot;"
+      separator=","
+      tableName="tbl_country"
+      relativeToChangelogFile="true">
+      <column header="code" name="code" type="STRING"/>
+      <column header="name" name="name" type="STRING"/>
+    </loadData>
+  </changeSet>
+
+  <changeSet author="rgordeev (generated)" id="1613051459463-15" context="fake">
+    <loadData commentLineStartsWith="#"
+      encoding="UTF-8"
+      file="data/users.csv"
+      quotchar="&quot;"
+      separator=","
+      tableName="tbl_user"
+      relativeToChangelogFile="true">
+      <column header="id" name="id" type="NUMERIC"/>
+      <column header="status" name="status" type="NUMERIC"/>
+      <column header="bio" name="bio" type="STRING"/>
+      <column header="last_name" name="last_name" type="STRING"/>
+      <column header="login" name="login" type="STRING"/>
+      <column header="name" name="name" type="STRING"/>
+      <column header="country_id" name="country_id" type="STRING"/>
+    </loadData>
+  </changeSet>
+
+  <changeSet author="rgordeev (generated)" id="1613051459463-16" context="fake">
+    <loadData commentLineStartsWith="#"
+      encoding="UTF-8"
+      file="data/user_language.csv"
+      quotchar="&quot;"
+      separator=","
+      tableName="tbl_user_language"
+      relativeToChangelogFile="true">
+      <column header="user_id" name="user_id" type="NUMERIC"/>
+      <column header="language_id" name="language_id" type="STRING"/>
+    </loadData>
+  </changeSet>
+
 </databaseChangeLog>
