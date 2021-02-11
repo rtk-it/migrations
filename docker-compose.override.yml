@@ -1,0 +1,30 @@
+version: "3.4"
+services:
+  postgres:
+    command: postgres -c 'max_connections=500'
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - PG_TRUST_LOCALNET
+      - 'TZ=Europe/Moscow'
+    networks:
+      backend: { aliases: [postgres.backend] }
+
+  app:
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_APPLICATION_JSON=${SPRING_APPLICATION_JSON}
+      - JAVA_OPTS=${JAVA_OPTS}
+    ports:
+      - 8080:8080
+      - 5050:5050
+    networks:
+      backend: { aliases: [app.backend] }
+
+networks:
+  backend:
+    driver: bridge

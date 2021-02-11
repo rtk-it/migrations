@@ -1,0 +1,77 @@
+<configuration>
+  <property name="APP_CONSOLE_LOG_PATTERN"
+    value="${APP_CONSOLE_LOG_PATTERN:-%boldGreen(%d{yyyy-MM-dd}) | %boldBlue(%d{HH:mm:ss.SSS}) | %highlight(%-5level) | %cyan(%-20.20thread) | %-25.25logger{25} | %-25.25method{25}  | %m%xEx{full}%n}"/>
+  <property name="APP_FILE_LOG_PATTERN"
+    value="${APP_FILE_LOG_PATTERN:-%boldGreen(%d{yyyy-MM-dd}) | %boldBlue(%d{HH:mm:ss.SSS}) | %highlight(%-5level) | %cyan(%-20.20thread) | %-25.25logger{25} | %-25.25method{25}  | %m%xEx{full}%n}"/>
+
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>${APP_CONSOLE_LOG_PATTERN}</pattern>
+    </encoder>
+  </appender>
+
+  <root level="DEBUG">
+    <appender-ref ref="CONSOLE"/>
+  </root>
+
+  <springProfile name="dev">
+    <root level="DEBUG">
+      <appender-ref ref="CONSOLE"/>
+    </root>
+  </springProfile>
+
+  <springProfile name="prod">
+
+    <property name="APP_LOG_FILE" value="${APP_LOG_FILE:-/usr/share/app/logs/app.log}"/>
+    <property name="APP_LOG_PATH" value="${APP_LOG_PATH:-/usr/share/app/logs/}"/>
+
+    <property name="APP_ERROR_LOG_FILE"
+      value="${APP_ERROR_LOG_FILE:-/usr/share/app/logs/errors/app.errors.log}"/>
+    <property name="APP_ERROR_LOG_PATH"
+      value="${APP_ERROR_LOG_PATH:-/usr/share/app/logs/errors}"/>
+
+    <appender name="app" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <file>${APP_LOG_FILE}</file>
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>${APP_LOG_PATH}/app.log-%d{yyyy-MM-dd_HH}.zip</fileNamePattern>
+        <maxHistory>24</maxHistory>
+      </rollingPolicy>
+      <encoder>
+        <pattern>${APP_FILE_LOG_PATTERN}</pattern>
+      </encoder>
+    </appender>
+
+    <appender name="errors" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <file>${APP_ERROR_LOG_FILE}</file>
+      <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+        <level>ERROR</level>
+      </filter>
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>${APP_ERROR_LOG_PATH}/app.errors.log-%d{yyyy-MM-dd}.zip
+        </fileNamePattern>
+        <maxHistory>24</maxHistory>
+      </rollingPolicy>
+      <encoder>
+        <pattern>${APP_FILE_LOG_PATTERN}</pattern>
+      </encoder>
+    </appender>
+
+    <logger name="ru.rgordeev.migrations" level="WARN" additivity="true"/>
+    <logger name="ru.rgordeev.migrations.model" level="WARN" additivity="true"/>
+    <logger name="ru.rgordeev.migrations.repository" level="WARN" additivity="true"/>
+    <logger name="ru.rgordeev.migrations.controller" level="WARN" additivity="true"/>
+
+    <!-- logging incoming http requests. Default level: INFO, switch to DEBUG to activate -->
+    <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" level="INFO" additivity="true"/>
+
+    <!-- logging liquibase changelogs -->
+    <logger name="liquibase" level="INFO" additivity="true"/>
+
+    <root level="WARN">
+      <appender-ref ref="CONSOLE"/>
+      <appender-ref ref="app"/>
+      <appender-ref ref="errors"/>
+    </root>
+  </springProfile>
+
+</configuration>

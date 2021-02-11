@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <property name="APP_CONSOLE_LOG_PATTERN"
+    value="${APP_CONSOLE_LOG_PATTERN:-%boldGreen(%d{yyyy-MM-dd}) | %boldBlue(%d{HH:mm:ss.SSS}) | %highlight(%-5level) | %cyan(%-20.20thread) | %-25.25logger{25} | %-25.25method{25}  | %m%xEx{full}%n}"/>
+  <property name="APP_FILE_LOG_PATTERN"
+    value="${APP_FILE_LOG_PATTERN:-%boldGreen(%d{yyyy-MM-dd}) | %boldBlue(%d{HH:mm:ss.SSS}) | %highlight(%-5level) | %cyan(%-20.20thread) | %-25.25logger{25} | %-25.25method{25}  | %m%xEx{full}%n}"/>
+
+  <property name="APP_LOG_FILE" value="${APP_LOG_FILE:-build/app-test.log}"/>
+  <property name="APP_LOG_PATH" value="${APP_LOG_PATH:-build}"/>
+
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>${APP_CONSOLE_LOG_PATTERN}</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${APP_LOG_FILE}</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${APP_LOG_PATH}/app.log-%d{yyyy-MM-dd_HH}.zip</fileNamePattern>
+      <maxHistory>24</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${APP_FILE_LOG_PATTERN}</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="org.hibernate.tool.hbm2ddl" level="DEBUG" additivity="true"/>
+  <logger name="org.hibernate.SQL" level="DEBUG" additivity="true"/>
+
+  <logger name="ru.rgordeev.migrations" level="WARN" additivity="true"/>
+  <logger name="ru.rgordeev.migrations.model" level="WARN" additivity="true"/>
+  <logger name="ru.rgordeev.migrations.repository" level="WARN" additivity="true"/>
+  <logger name="ru.rgordeev.migrations.controller" level="WARN" additivity="true"/>
+
+
+  <!-- logging liquibase changelogs -->
+  <logger name="liquibase" level="INFO" additivity="true"/>
+
+  <root level="DEBUG">
+    <appender-ref ref="CONSOLE"/>
+    <appender-ref ref="FILE"/>
+  </root>
+
+</configuration>

@@ -1,0 +1,47 @@
+logging:
+  level:
+    ROOT: DEBUG
+    ru.rgordeev.migrations: DEBUG
+
+spring:
+  devtools:
+    restart:
+      enabled: false
+      additional-exclude: .h2.server.properties
+    livereload:
+      enabled: false
+  jackson:
+    serialization:
+      indent-output: true
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;INIT=create domain if not exists jsonb as text;MODE=PostgreSQL;
+    username: migrations
+    password:
+    driver-class-name: org.h2.Driver
+    hikari:
+      poolName: Hikari
+      auto-commit: false
+      maximum-pool-size: 10
+      driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate.dialect: org.hibernate.dialect.H2Dialect
+      hibernate.hbm2ddl.auto: create-drop
+      hibernate.show_sql: true
+      hibernate.id.new_generator_mappings: true
+      hibernate.connection.provider_disables_autocommit: false
+      hibernate.generate_statistics: false
+    database-platform: org.hibernate.dialect.H2Dialect
+  liquibase:
+    enabled: false
+    contexts: fake,prod
+
+server:
+  port: 8080
