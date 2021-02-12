@@ -3,76 +3,38 @@
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.10.xsd"
   logicalFilePath="init.xml">
 
-  <changeSet author="rgordeev (generated)" id="1613076430266-1" dbms="postgresql">
+  <property name="text.type" value="TEXT" dbms="postgresql"/>
+  <property name="text.type" value="VARCHAR(2000)" dbms="h2"/>
+
+  <changeSet author="rgordeev (generated)" id="1613076430266-1">
     <createTable tableName="tbl_country">
       <column name="code" type="VARCHAR(255)">
         <constraints nullable="false" primaryKey="true" primaryKeyName="tbl_country_pkey"/>
       </column>
-      <column name="name" type="TEXT">
-        <constraints nullable="false"/>
-      </column>
-    </createTable>
-  </changeSet>
-  <changeSet author="rgordeev (generated)" id="1613076430266-1" dbms="h2">
-    <createTable tableName="tbl_country">
-      <column name="code" type="VARCHAR(255)">
-        <constraints nullable="false" primaryKey="true" primaryKeyName="tbl_country_pkey"/>
-      </column>
-      <column name="name" type="VARCHAR(1024)">
+      <column name="name" type="${text.type}">
         <constraints nullable="false"/>
       </column>
     </createTable>
   </changeSet>
 
-  <changeSet author="rgordeev (generated)" id="1613076430266-2" dbms="postgresql">
+  <changeSet author="rgordeev (generated)" id="1613076430266-2">
     <createTable tableName="tbl_language">
       <column name="code" type="VARCHAR(255)">
         <constraints nullable="false" primaryKey="true" primaryKeyName="tbl_language_pkey"/>
       </column>
-      <column name="name" type="TEXT">
-        <constraints nullable="false"/>
-      </column>
-    </createTable>
-  </changeSet>
-  <changeSet author="rgordeev (generated)" id="1613076430266-2" dbms="h2">
-    <createTable tableName="tbl_language">
-      <column name="code" type="VARCHAR(255)">
-        <constraints nullable="false" primaryKey="true" primaryKeyName="tbl_language_pkey"/>
-      </column>
-      <column name="name" type="VARCHAR(1024)">
+      <column name="name" type="${text.type}">
         <constraints nullable="false"/>
       </column>
     </createTable>
   </changeSet>
 
-  <changeSet author="rgordeev (generated)" id="1613076430266-3" dbms="postgresql">
+  <changeSet author="rgordeev (generated)" id="1613076430266-3">
     <createTable tableName="tbl_user">
       <column name="id" type="BIGINT">
         <constraints nullable="false" primaryKey="true" primaryKeyName="tbl_user_pkey"/>
       </column>
       <column name="status" type="INTEGER"/>
-      <column name="bio" type="TEXT"/>
-      <column name="last_name" type="VARCHAR(255)">
-        <constraints nullable="false"/>
-      </column>
-      <column name="login" type="VARCHAR(255)">
-        <constraints nullable="false"/>
-      </column>
-      <column name="name" type="VARCHAR(255)">
-        <constraints nullable="false"/>
-      </column>
-      <column name="country_id" type="VARCHAR(255)">
-        <constraints nullable="false"/>
-      </column>
-    </createTable>
-  </changeSet>
-  <changeSet author="rgordeev (generated)" id="1613076430266-3" dbms="h2">
-    <createTable tableName="tbl_user">
-      <column name="id" type="BIGINT">
-        <constraints nullable="false" primaryKey="true" primaryKeyName="tbl_user_pkey"/>
-      </column>
-      <column name="status" type="INTEGER"/>
-      <column name="bio" type="VARCHAR(1024)"/>
+      <column name="bio" type="${text.type}"/>
       <column name="last_name" type="VARCHAR(255)">
         <constraints nullable="false"/>
       </column>
