@@ -39,10 +39,10 @@ spring:
     contexts: prod
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
       hibernate.dialect: org.hibernate.dialect.PostgreSQL10Dialect
-      hibernate.hbm2ddl.auto: update
+      hibernate.hbm2ddl.auto: validate
       hibernate.show_sql: false
       hibernate.format_sql: false
       hibernate.query.plan_parameter_metadata_max_size: 2000
