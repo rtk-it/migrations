@@ -24,9 +24,9 @@ logging:
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://postges.backend:5432/prod
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://postges.backend:5432/migrations_prod
+    username: migrations
+    password: migrations
     name: app-prod-database
     driver-class-name: org.postgresql.Driver
     hikari:
