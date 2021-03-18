@@ -1,6 +1,7 @@
 package ru.rgordeev.migrations.model;
 
 
+import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,4 +30,8 @@ public class Country {
     @Basic
     @Column(name = "name", nullable = false, columnDefinition = "text")
     private String name;
+
+    @Basic
+    @Column(name = "population", nullable = true)
+    private long population;
 }

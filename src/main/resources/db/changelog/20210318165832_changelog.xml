@@ -1,0 +1,18 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.10.xsd">
+  <changeSet author="rgordeev (generated)" id="1616075915508-2">
+    <addColumn tableName="tbl_country">
+      <column name="population" type="int8"/>
+    </addColumn>
+  </changeSet>
+  <changeSet author="rgordeev (generated)" id="1616075915508-1">
+    <sql stripComments="true" splitStatements="true" dbms="postgresql">
+      ALTER SEQUENCE IF EXISTS user_id_seq MINVALUE 100 START WITH 100 RESTART WITH 100;
+    </sql>
+
+    <sql stripComments="true" splitStatements="true" dbms="h2">
+      ALTER SEQUENCE IF EXISTS user_id_seq RESTART WITH 100 MINVALUE 100;
+    </sql>
+  </changeSet>
+</databaseChangeLog>

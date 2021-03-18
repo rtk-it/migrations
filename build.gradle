@@ -33,7 +33,7 @@ project.afterEvaluate {
                 url project.ext.targetUrl
                 username project.ext.targetUsername
                 password project.ext.targetPassword
-                changeLogFile "src/main/resources/db/changelog/db.changelog-master.xml"
+                changeLogFile "src/main/resources/db/changelog/init.xml"
                 logLevel "info"
                 contexts "prod"
             }

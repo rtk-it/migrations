@@ -35,14 +35,14 @@ spring:
       maximum-pool-size: 50
       driver-class-name: org.postgresql.Driver
   liquibase:
-    enabled: false
+    enabled: true
     contexts: prod
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate.dialect: org.hibernate.dialect.PostgreSQL10Dialect
-      hibernate.hbm2ddl.auto: update
+      hibernate.hbm2ddl.auto: none
       hibernate.show_sql: false
       hibernate.format_sql: false
       hibernate.query.plan_parameter_metadata_max_size: 2000

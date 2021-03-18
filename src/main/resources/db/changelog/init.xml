@@ -1,0 +1,139 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.10.xsd"
+  logicalFilePath="init.xml">
+
+  <property name="text.type" value="TEXT" dbms="postgresql"/>
+  <property name="text.type" value="VARCHAR(2000)" dbms="h2"/>
+
+  <changeSet author="rgordeev (generated)" id="1616071912903-1">
+    <createTable tableName="tbl_country">
+      <column name="code" type="VARCHAR(255)">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="tbl_country_pkey"/>
+      </column>
+      <column name="name" type="${text.type}">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="rgordeev (generated)" id="1616071912903-2">
+    <createTable tableName="tbl_language">
+      <column name="code" type="VARCHAR(255)">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="tbl_language_pkey"/>
+      </column>
+      <column name="name" type="${text.type}">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="rgordeev (generated)" id="1616071912903-3">
+    <createTable tableName="tbl_user">
+      <column name="id" type="BIGINT">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="tbl_user_pkey"/>
+      </column>
+      <column name="status" type="INTEGER"/>
+      <column name="bio" type="${text.type}"/>
+      <column name="last_name" type="VARCHAR(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="login" type="VARCHAR(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="name" type="VARCHAR(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="country_id" type="VARCHAR(255)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="rgordeev (generated)" id="1616071912903-4">
+    <createTable tableName="tbl_user_language">
+      <column name="user_id" type="BIGINT">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="tbl_user_language_pkey"/>
+      </column>
+      <column name="language_id" type="VARCHAR(255)">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="tbl_user_language_pkey"/>
+      </column>
+    </createTable>
+  </changeSet>
+  <changeSet author="rgordeev (generated)" id="1616071912903-5">
+    <createIndex indexName="idx_country_name" tableName="tbl_country">
+      <column name="name"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="rgordeev (generated)" id="1616071912903-6">
+    <createIndex indexName="idx_language_name" tableName="tbl_language">
+      <column name="name"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="rgordeev (generated)" id="1616071912903-7">
+    <addForeignKeyConstraint baseColumnNames="country_id" baseTableName="tbl_user" constraintName="fk_user_country_id"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="code"
+      referencedTableName="tbl_country" validate="true"/>
+  </changeSet>
+  <changeSet author="rgordeev (generated)" id="1616071912903-8">
+    <createIndex indexName="idx_user_last_name" tableName="tbl_user">
+      <column name="last_name"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="rgordeev (generated)" id="1616071912903-9">
+    <createIndex indexName="idx_user_name" tableName="tbl_user">
+      <column name="name"/>
+    </createIndex>
+  </changeSet>
+  <changeSet author="rgordeev (generated)" id="1616071912903-10">
+    <addForeignKeyConstraint baseColumnNames="language_id" baseTableName="tbl_user_language"
+      constraintName="fk_user_language_language_id" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+      onUpdate="NO ACTION" referencedColumnNames="code" referencedTableName="tbl_language" validate="true"/>
+  </changeSet>
+  <changeSet author="rgordeev (generated)" id="1616071912903-11">
+    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="tbl_user_language" constraintName="fk_user_language_user_id"
+      deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+      referencedTableName="tbl_user" validate="true"/>
+  </changeSet>
+
+  <changeSet author="rgordeev (generated)" id="1616071912903-12" dbms="postgresql">
+    <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="50" maxValue="9223372036854775807" minValue="1"
+      sequenceName="user_id_seq" startValue="1"/>
+  </changeSet>
+
+  <changeSet author="rgordeev (generated)" id="1616071912903-12" dbms="h2">
+    <createSequence cacheSize="1" cycle="false" incrementBy="50" maxValue="9223372036854775807" minValue="1"
+      sequenceName="user_id_seq" startValue="1"/>
+  </changeSet>
+
+  <changeSet author="rgordeev" id="1616071912903-13">
+    <loadData tableName="tbl_country" file="data/countries.csv" relativeToChangelogFile="true">
+      <column name="name" header="name" type="STRING"/>
+      <column name="code" header="code" type="STRING"/>
+    </loadData>
+  </changeSet>
+
+  <changeSet author="rgordeev" id="1616071912903-14">
+    <loadData tableName="tbl_language" file="data/languages.csv" relativeToChangelogFile="true">
+      <column name="name" header="name" type="STRING"/>
+      <column name="code" header="code" type="STRING"/>
+    </loadData>
+  </changeSet>
+
+  <changeSet id="1616071912903-15" author="rgordeev" context="fake">
+    <loadData tableName="tbl_user" file="data/users.csv" relativeToChangelogFile="true">
+      <column name="id" header="id" type="NUMERIC"/>
+      <column name="status" header="status" type="NUMERIC"/>
+      <column name="bio" header="bio" type="STRING"/>
+      <column name="last_name" header="last_name" type="STRING"/>
+      <column name="login" header="login" type="STRING"/>
+      <column name="name" header="name" type="STRING"/>
+      <column name="country_id" header="country_id" type="STRING"/>
+    </loadData>
+  </changeSet>
+
+  <changeSet id="1616071912903-16" author="rgordeev" context="fake">
+    <loadData tableName="tbl_user_language" file="data/user_to_language.csv" relativeToChangelogFile="true">
+      <column name="user_id" header="user_id" type="NUMERIC"/>
+      <column name="language_id" header="language_id" type="STRING"/>
+    </loadData>
+  </changeSet>
+
+</databaseChangeLog>

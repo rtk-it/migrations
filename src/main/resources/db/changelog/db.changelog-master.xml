@@ -3,7 +3,13 @@
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.10.xsd">
 
     <preConditions onFail="WARN">
-        <dbms type="postgresql"/>
+        <or>
+            <dbms type="h2"/>
+            <dbms type="postgresql"/>
+        </or>
     </preConditions>
+
+    <include file="init.xml" relativeToChangelogFile="true"/>
+    <include file="20210318165832_changelog.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

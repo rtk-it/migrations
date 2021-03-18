@@ -34,10 +34,10 @@ spring:
       driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
     properties:
       hibernate.dialect: org.hibernate.dialect.PostgreSQL10Dialect
-      hibernate.hbm2ddl.auto: create-drop
+      hibernate.hbm2ddl.auto: validate
       hibernate.show_sql: true
       hibernate.format_sql: true
       hibernate.query.plan_parameter_metadata_max_size: 2000
@@ -47,7 +47,7 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQL10Dialect
     show-sql: true
   liquibase:
-    enabled: false
+    enabled: true
     contexts: fake,prod
 
 server:
